@@ -1,9 +1,8 @@
 ﻿HostApplicationBuilder Builder = Host.CreateApplicationBuilder();
-Builder.Services.AddSingleton<IUserActionWriter, DebugWriter>();
-Builder.Services.AddSingleton<IUserActionWriter, ConsoleWriter>();
-Builder.Services.AddSingleton<IUserActionWriter, FileWriter>();
-Builder.Services.AddSingleton<AppLogger>();
-Builder.Services.AddSingleton<ProductService>();
+
+Builder.Services.AddNorthWindServices();
+
+
 using IHost AppHost = Builder.Build();
 
 
@@ -11,10 +10,10 @@ using IHost AppHost = Builder.Build();
 //IUserActionWriter Writer = new DebugWriter();
 //IUserActionWriter Writer = new FileWriter();
 
-AppLogger Logger = AppHost.Services.GetRequiredService<AppLogger>();
+IAppLogger Logger = AppHost.Services.GetRequiredService<IAppLogger>();
 Logger.WriteLog("Application started.");
 
-ProductService Service = AppHost.Services.GetRequiredService<ProductService>();
+IProductService Service = AppHost.Services.GetRequiredService<IProductService>();
 Service.Add("Demo", "Azucar refinada");
 
 /*
